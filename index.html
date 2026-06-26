@@ -1,410 +1,479 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Home Paint Expenses Dashboard</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Paint Expenses Dashboard</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-body{
-    background:#0f172a;
-    color:white;
-}
+    <style>
+      body {
+        background: #0f172a;
+        color: white;
+      }
 
-h1{
-    font-weight:700;
-}
+      h1 {
+        font-weight: 700;
+      }
 
-/* TOP CARDS */
-.card{
-    background:#1e293b;
-    border:none;
-    border-radius:20px;
-    color:white;
-}
+      /* TOP CARDS */
+      .card {
+        background: #1e293b;
+        border: none;
+        border-radius: 20px;
+        color: white;
+      }
 
-/* TABLE TEXT */
-.amount{
-    color:#60a5fa;
-}
+      /* TABLE TEXT */
+      .amount {
+        color: #60a5fa;
+      }
 
-/* CHART SIZE */
-canvas{
-    max-height:350px;
-}
+      /* CHART SIZE */
+      canvas {
+        max-height: 350px;
+      }
 
-/* EXPENSE CARD FIX */
-.expense-card{
-    background:#273549;
-    border-radius:20px;
-    padding:25px;
-    transition:0.3s;
+      .labour-div{
+        height: 100vh;
+      }
 
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
+      /* EXPENSE CARD FIX */
+      .expense-card {
+        background: #273549;
+        border-radius: 20px;
+        padding: 25px;
+        transition: 0.3s;
 
-.expense-card:hover{
-    transform:translateY(-6px);
-    background:#334155;
-}
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
 
-.price{
-    color:#60a5fa;
-    font-weight:700;
-}
+      .expense-card:hover {
+        transform: translateY(-6px);
+        background: #334155;
+      }
 
-/* RECEIPT FIX */
-.receipt-placeholder{
-    border:2px dashed #475569;
-    border-radius:15px;
-    overflow:hidden;
+      .price {
+        color: #60a5fa;
+        font-weight: 700;
+      }
 
-    background:#1e293b;
+      /* RECEIPT FIX */
+      .receipt-placeholder {
+        border: 2px dashed #475569;
+        border-radius: 15px;
+        overflow: hidden;
 
-    height: auto;
-    width:100%;
+        background: #1e293b;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+        height: auto;
+        width: 100%;
 
-.receipt-img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
-</style>
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-</head>
+      .receipt-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
+    <div class="container py-5">
+      <h1 class="text-center mb-5">🏠 Home Paint Expenses Dashboard</h1>
 
-<div class="container py-5">
-
-<h1 class="text-center mb-5">🏠 Home Paint Expenses Dashboard</h1>
-
-<!-- TOP CARDS -->
-<div class="row g-4 mb-5">
-
-    <div class="col-md-4">
-        <div class="card p-4 h-100">
+      <!-- TOP CARDS -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-4">
+          <div class="card p-4 h-100">
             <h6>Total Expenses</h6>
-            <h2 class="amount">Rs. 127,410</h2>
+            <h2 class="amount">Rs. 140,910</h2>
+          </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card p-4 h-100">
+        <div class="col-md-4">
+          <div class="card p-4 h-100">
             <h6>Total Purchases</h6>
-            <h2 class="text-info">10</h2>
+            <h2 class="text-info">12</h2>
+          </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card p-4 h-100">
+        <div class="col-md-4">
+          <div class="card p-4 h-100">
             <h6>Latest Purchase</h6>
-            <h2 class="text-warning">17-06-26</h2>
+            <h2 class="text-warning">21-06-26</h2>
+          </div>
         </div>
-    </div>
+      </div>
 
-</div>
-
-<!-- CHARTS -->
-<div class="row g-4 mb-5">
-
-    <div class="col-lg-5">
-        <div class="card p-4 h-100">
+      <!-- CHARTS -->
+      <div class="row g-4 mb-5">
+        <div class="col-lg-5">
+          <div class="card p-4 h-100">
             <h4 class="mb-3">Expense Distribution</h4>
             <canvas id="pieChart"></canvas>
+          </div>
         </div>
-    </div>
 
-    <div class="col-lg-7">
-        <div class="card p-4 h-100">
+        <div class="col-lg-7">
+          <div class="card p-4 h-100">
             <h4 class="mb-3">Daily Spending Trend</h4>
             <canvas id="lineChart"></canvas>
+          </div>
         </div>
-    </div>
+      </div>
 
-</div>
-
-<!-- EXPENSE CARDS -->
-<div class="card p-4">
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>Expense Details</h3>
-    <span class="badge bg-primary fs-6">10 Purchases</span>
-</div>
-
-<div class="row g-4">
-
-<!-- 1 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Paint remover (2 gallon)</h5>
-            <small class="text-secondary">07-06-26</small>
+      <!-- EXPENSE CARDS -->
+      <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3>Expense Details</h3>
+          <span class="badge bg-primary fs-6">12 Purchases</span>
         </div>
-        <h4 class="price">Rs.4,400</h4>
-    </div>
 
-    <span class="badge bg-danger mt-2 w-fit">Chemicals</span>
+        <div class="row g-4">
+          <!-- 1 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Paint remover (2 gallon)</h5>
+                  <small class="text-secondary">07-06-26</small>
+                </div>
+                <h4 class="price">Rs.4,400</h4>
+              </div>
 
-    <div class="receipt-placeholder mt-3">
-        <img src="img/1.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
+              <span class="badge bg-danger mt-2 w-fit">Chemicals</span>
 
-<!-- 2 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Multi accessories</h5>
-            <small class="text-secondary">07-06-26</small>
+              <div class="receipt-placeholder mt-3">
+                <img src="img/1.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Multi accessories</h5>
+                  <small class="text-secondary">07-06-26</small>
+                </div>
+                <h4 class="price">Rs.22,330</h4>
+              </div>
+
+              <span class="badge bg-info mt-2 w-fit">Accessories</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/2.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>10L Kerosine oil + Gallon</h5>
+                  <small class="text-secondary">07-06-26</small>
+                </div>
+                <h4 class="price">Rs.9,000</h4>
+              </div>
+
+              <span class="badge bg-danger mt-2 w-fit">Chemicals</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/3.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>6 Cotton + 1 Oil Primer</h5>
+                  <small class="text-secondary">08-06-26</small>
+                </div>
+                <h4 class="price">Rs.4,500</h4>
+              </div>
+
+              <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/4.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>2 Gallon remover + Matt paint</h5>
+                  <small class="text-secondary">09-06-26</small>
+                </div>
+                <h4 class="price">Rs.33,970</h4>
+              </div>
+
+              <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/5.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>1 Gallon remover + Brushes</h5>
+                  <small class="text-secondary">11-06-26</small>
+                </div>
+                <h4 class="price">Rs.3,600</h4>
+              </div>
+
+              <span class="badge bg-success mt-2 w-fit">Brushes</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/6.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Primer + Kerosine Oil</h5>
+                  <small class="text-secondary">12-06-26</small>
+                </div>
+                <h4 class="price">Rs.7,100</h4>
+              </div>
+
+              <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/7.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Thinner + Paint + Cotton</h5>
+                  <small class="text-secondary">13-06-26</small>
+                </div>
+                <h4 class="price">Rs.5,060</h4>
+              </div>
+
+              <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/8.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="col-lg-6 d-flex">
+            <div class="expense-card w-100">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5>Floor Polish + Brushes</h5>
+                  <small class="text-secondary">16-06-26</small>
+                </div>
+                <h4 class="price">Rs.7,950</h4>
+              </div>
+
+              <span class="badge bg-info mt-2 w-fit">Accessories</span>
+
+              <div class="receipt-placeholder mt-3">
+                <img src="img/9.jpeg" class="receipt-img" />
+              </div>
+            </div>
+          </div>
+
+            <!-- 10 -->
+            <div class="col-lg-6 d-flex">
+              <div class="expense-card w-100">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5>Oil + Distemper + Roller</h5>
+                    <small class="text-secondary">17-06-26</small>
+                  </div>
+                  <h4 class="price">Rs.29,500</h4>
+                </div>
+
+                <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+                <div class="receipt-placeholder mt-3">
+                  <img src="img/10.jpeg" class="receipt-img" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="col-lg-6 d-flex">
+              <div class="expense-card w-100">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5>2 Gallon Acrylic Patti</h5>
+                    <small class="text-secondary">21-06-26</small>
+                  </div>
+                  <h4 class="price">Rs.3,500</h4>
+                </div>
+
+                <span class="badge bg-danger mt-2 w-fit">Chemicals</span>
+
+                <div class="receipt-placeholder mt-3">
+                  <img src="img/12.jpeg" class="receipt-img" />
+                </div>
+              </div>
+            </div>v 
+
+            <!-- 12 -->
+            <div class="col-lg-6 d-flex">
+              <div class="expense-card w-100">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5>1 Gallon Oil Paint + 2 Primer + Fare Charges</h5>
+                    <small class="text-secondary">18-06-26</small>
+                  </div>
+                  <h4 class="price">Rs.10,000</h4>
+                </div>
+
+                <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
+
+                <div class="receipt-placeholder mt-3">
+                  <img src="img/11.jpeg" class="receipt-img" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 13 -->
+
+
+            <div class="col-lg-6 d-flex labour-div">
+              <div class="expense-card w-100">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5>Labour Charges</h5>
+                    <small class="text-secondary">21-06-26</small>
+                  </div>
+                  <h4 class="price">Rs.80,000</h4>
+                </div>
+
+                <span class="badge bg-secondary mt-2 w-fit">Labour</span>
+
+              </div>
+            </div>
+          </div>
+          <!-- End row -->
         </div>
-        <h4 class="price">Rs.22,330</h4>
+        <!-- End card -->
+      </div>
+      <!-- End container -->
     </div>
 
-    <span class="badge bg-info mt-2 w-fit">Accessories</span>
+    <!-- CHART JS -->
+    <script>
+      new Chart(document.getElementById("pieChart"), {
+        type: "pie",
+        data: {
+          labels: ["Paint and primer", "Brushes", "Accessories", "Chemicals", "Labour"],
+          datasets: [
+            {
+              data: [94130, 10000, 22330, 34550, 80000],
+              backgroundColor: ["#2563eb", "#198754", "#0dcaf0", "#dc3545", "#6c757d"],
+            },
+          ],
+        },
+      });
 
-    <div class="receipt-placeholder mt-3">
-        <img src="img/2.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
+      const ctx = document.getElementById("lineChart");
 
-<!-- 3 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>10L Kerosine oil + Gallon</h5>
-            <small class="text-secondary">07-06-26</small>
-        </div>
-        <h4 class="price">Rs.9,000</h4>
-    </div>
+      const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: [
+            "07 Jun",
+            "08 Jun",
+            "09 Jun",
+            "11 Jun",
+            "12 Jun",
+            "13 Jun",
+            "16 Jun",
+            "17 Jun",
+            "18 Jun",
+            "21 Jun",
+          ],
+          datasets: [
+            {
+              label: "Amount Spent",
+              data: [
+                35730, 4500, 33970, 3600, 7100, 5060, 7950, 29500, 10000, 3500,
+              ],
+              borderColor: "#60a5fa",
+              backgroundColor: "rgba(96,165,250,.2)",
+              fill: true,
+              tension: 0.4,
+              pointRadius: 5,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
 
-    <span class="badge bg-danger mt-2 w-fit">Chemicals</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/3.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 4 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>6 Cotton + 1 Oil Primer</h5>
-            <small class="text-secondary">08-06-26</small>
-        </div>
-        <h4 class="price">Rs.4,500</h4>
-    </div>
-
-    <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/4.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 5 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>2 Gallon remover + Matt paint</h5>
-            <small class="text-secondary">09-06-26</small>
-        </div>
-        <h4 class="price">Rs.33,970</h4>
-    </div>
-
-    <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/5.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 6 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>1 Gallon remover + Brushes</h5>
-            <small class="text-secondary">11-06-26</small>
-        </div>
-        <h4 class="price">Rs.3,600</h4>
-    </div>
-
-    <span class="badge bg-success mt-2 w-fit">Brushes</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/6.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 7 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Primer + Kerosine Oil</h5>
-            <small class="text-secondary">12-06-26</small>
-        </div>
-        <h4 class="price">Rs.7,100</h4>
-    </div>
-
-    <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/7.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 8 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Thinner + Paint + Cotton</h5>
-            <small class="text-secondary">13-06-26</small>
-        </div>
-        <h4 class="price">Rs.5,060</h4>
-    </div>
-
-    <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/8.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 9 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Floor Polish + Brushes</h5>
-            <small class="text-secondary">16-06-26</small>
-        </div>
-        <h4 class="price">Rs.7,950</h4>
-    </div>
-
-    <span class="badge bg-info mt-2 w-fit">Accessories</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/9.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-<!-- 10 -->
-<div class="col-lg-6 d-flex">
-<div class="expense-card w-100">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5>Oil + Distemper + Roller</h5>
-            <small class="text-secondary">17-06-26</small>
-        </div>
-        <h4 class="price">Rs.29,500</h4>
-    </div>
-
-    <span class="badge bg-primary mt-2 w-fit">Paint & Primer</span>
-
-    <div class="receipt-placeholder mt-3">
-        <img src="img/10.jpeg" class="receipt-img">
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-
-<!-- CHART JS -->
-<script>
-new Chart(document.getElementById("pieChart"),{
-type:"pie",
-data:{
-labels:["Paint and primer","Brushes","Accessories","Chemicals"],
-datasets:[{
-data:[84030,10000,22330,31050],
-backgroundColor:["#2563eb","#06b6d4","#38bdf8","#1d4ed8"]
-}]
-}
-});
-
-const ctx = document.getElementById("lineChart");
-
-const chart = new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: ["07 Jun","08 Jun","09 Jun","11 Jun","12 Jun","13 Jun","16 Jun","17 Jun"],
-        datasets: [{
-            label: "Amount Spent",
-            data: [35730,4500,33970,3600,7100,5060,7950,29500],
-            borderColor: "#60a5fa",
-            backgroundColor: "rgba(96,165,250,.2)",
-            fill: true,
-            tension: 0.4,
-            pointRadius: 5
-        }]
-    },
-    options: {
-        responsive: true,
-
-        plugins: {
+          plugins: {
             tooltip: {
-                enabled: true
-            }
-        },
+              enabled: true,
+            },
+          },
 
-        onClick: (event, elements) => {
-
+          onClick: (event, elements) => {
             if (elements.length > 0) {
+              const index = elements[0].index;
 
-                const index = elements[0].index;
-
-                const date = chart.data.labels[index];
-                const amount = chart.data.datasets[0].data[index];
-
+              const date = chart.data.labels[index];
+              const amount = chart.data.datasets[0].data[index];
             }
-        },
+          },
 
-        scales: {
+          scales: {
             x: {
-                ticks: { color: "white" },
-                grid: { color: "#334155" }
+              ticks: { color: "white" },
+              grid: { color: "#334155" },
             },
             y: {
-                ticks: { color: "white" },
-                grid: { color: "#334155" }
-            }
-        }
-    }
-});
-</script>
-
-</body>
+              ticks: { color: "white" },
+              grid: { color: "#334155" },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
